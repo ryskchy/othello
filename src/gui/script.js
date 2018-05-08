@@ -29,7 +29,7 @@
         return board;
     }
 
-    function drawBoard(board, player) {
+    function drawBoard(board, turn) {
         bb = board;
         var ss = [];
         var columns = "abcdefgh";
@@ -44,7 +44,7 @@
                     ss.push(' ');
                     ss.push(board[[x, y]]);
                     ss.push('">');
-                    ss.push('<span class="disc"></span>');
+                    ss.push('<span class="stone"></span>');
                     ss.push('</td>');
                 }
                 else if (x >= 0 && y == -1) {
@@ -59,17 +59,17 @@
         }
         ss.push('</table>');
         document.getElementById("game-board").innerHTML = ss.join('');
-        document.getElementById("next-color").innerHTML = '<span class="disc ' + player + '"></span>';
+        document.getElementById("next-color").innerHTML = '<span class="stone ' + turn + '"></span>';
     }
 
     /**
      * @param {object} board
-     * @param {string} player
+     * @param {string} turn
      * @param {boolean} wasPassed 
      * @param {number} i
      * @param {number} j 
      */
-    function CanPutStone(board, player, i, j) {
+    function CanPutStone(board, turn, i, j) {
         var target = board[[i, j]];
         if (target != EMPTY) {
             return false;
@@ -82,7 +82,7 @@
         diffs.forEach(diff => {
             if (!(diff[0] < 0 || diff[0] >= N || diff[1] < 0 || diff[1] >= N)) {
                 var nabor = board[diff];
-                if (nabor != EMPTY && nabor != player) {
+                if (nabor != EMPTY && nabor != turn) {
                     // 先まで見て自分の色がある
                 }
             }
