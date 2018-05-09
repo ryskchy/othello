@@ -2,7 +2,8 @@
 var gameState = {
     board: undefined,
     turn: undefined,
-    wasPassed: false
+    wasPassed: false,
+    log: []
 };
 
 (function () {
@@ -27,6 +28,7 @@ var gameState = {
         gameState.board = initializeBoard();
         gameState.turn = BLACK;
         gameState.wasPassed = false;
+        gameState.log
         drawBoard(gameState.board, BLACK);
     }
 
@@ -72,7 +74,7 @@ var gameState = {
                     if (canclick) {
                         td.classList.add('clickable');
                     }
-                    td.onclick = () => cellClicked(x, y, canclick);
+                    td.onclick = () => cellClicked(x, y);
                     var stone = document.createElement('span');
                     stone.classList.add('stone');
                     td.appendChild(stone);
@@ -95,10 +97,8 @@ var gameState = {
         var gboard = document.getElementById("game-board");
         gboard.innerHTML = '';
         gboard.appendChild(table);
-        // document.getElementById("game-board").removeChild(board.firstChild);
-        // gboard.appendChild(table);
-        //board.replaceChild(table, board.firstChild);
         document.getElementById("next-color").innerHTML = '<span class="stone ' + turn + '"></span>';
+        document.getElementById("record").innerText = gameState.log.join('\n');
     }
 
     /**
@@ -136,11 +136,12 @@ var gameState = {
                             listFlips.push(idx);
                             return listFlips;
                         }
-                        for (let ii = x + diff[0]; ii < idx[0]; ii++) {
-                            for (let jj = y_diff[1]; jj < idx[1]; jj++) {
-                                listFlips.push([ii, jj]);
-                            }
+                        var idx2 = [x + diff[0], y + diff[1]];
+                        while (idx2[0] != idx[0] || idx2[1] != idx[1]) {
+                            listFlips.push(idx2);
+                            idx2 = [idx2[0] + diff[0], idx2[1] + diff[1]];
                         }
+                        break;
                     }
                     if (gameState.board[idx] == EMPTY) {
                         break;
@@ -150,15 +151,71 @@ var gameState = {
         }
         return listFlips;
     }
-    function step() {
-        gameState.turn = gameState.turn == BLACK ? White : BLACK;
+
+    /**
+     * 指し手がなければtrue
+     */
+    function checkPass() {
+        for (let x = 0; x < N; x++) {
+            for (let y = 0; y < N; y++) {
+                if (canPutStone(x, y)) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
-    function cellClicked(x, y, canClick) {
-        console.log(x, ",", y)
-        if (!canClick) return;
+
+    function endGame() {
+        var score = calcScore();
+        document.getElementById("winner").innerText = score[BLACK] > score[WHITE] ? BLACK : score[BLACK] < score[WHITE] ? WHITE : "draw";
+    }
+    function calcScore() {
+        var score = {}
+        score[BLACK] = 0;
+        score[WHITE] = 0;
+        for (let x = 0; x < N; x++) {
+            for (let y = 0; y < N; y++) {
+                if (gameState.board.hasOwnProperty([x, y])) {
+                    const element = gameState.board[[x, y]];
+                    if (element != EMPTY) {
+                        score[element] += 1;
+                    }
+                }
+
+            }
+        }
+        return score;
+
+    }
+
+    function step(x, y) {
+        flipStones(x, y);
+        gameState.log.push([x, y, gameState.turn]);
+        gameState.turn = gameState.turn == BLACK ? WHITE : BLACK;
+        if (checkPass()) {
+            gameState.log.push(["pass", gameState.turn]);
+            gameState.turn = gameState.turn == BLACK ? WHITE : BLACK;
+            if (gameState.wasPassed) {
+                endGame();
+                return;
+            }
+            gameState.wasPassed = true;
+        }
+    }
+
+    function flipStones(x, y) {
         gameState.board[[x, y]] = gameState.turn;
+        listFlipCells(x, y).forEach(idx => {
+            gameState.board[idx] = gameState.turn;
+        });
 
-
+    }
+    function cellClicked(x, y) {
+        console.log(x, ",", y)
+        if (!document.getElementById(getCellID(x, y)).classList.contains('clickable')) return;
+        step(x, y);
+        drawBoard();
         return;
     }
 

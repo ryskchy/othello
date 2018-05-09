@@ -36,6 +36,10 @@
     background: rgb(0, 0, 0);
 }
 
+#next-player {
+    float: inherit;
+}
+
 #next-color>.stone {
     display: inline-block;
     width: 1em;
@@ -49,6 +53,7 @@
 
 #next-color>.white {
     background: rgb(255, 255, 255);
+    border-style: solid;
     border-color: black;
     border-width: 1px;
 }
@@ -57,4 +62,11 @@
     cursor: pointer;
 }
 
-#player-selection {}
+div#record {
+    position: relative;
+    margin: auto;
+    width: 400px;
+    height: 100px;
+    overflow: auto;
+    border: solid black;
+}
