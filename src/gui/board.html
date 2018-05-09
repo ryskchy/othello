@@ -15,6 +15,23 @@
             <span id="next-color">-</span>
         </div>
         <div id="winner"></div>
+        <div id='reset'>
+            <button type="button" id="reset-button" onclick="reset()">reset</button>
+        </div>
+        <div id="player-selection">
+            <div id="black-player-selection">
+                <label for="black-player">Black: </label>
+                <select id="black-player">
+                    <option value="human" selected>Human</option>
+                </select>
+            </div>
+            <div id="white-player-selection">
+                <label for="white-player">White: </label>
+                <select id="white-player">
+                    <option value="human" selected>Human</option>
+                </select>
+            </div>
+        </div>
         <div id="record"></div>
     </div>
     <script src="script.js"></script>

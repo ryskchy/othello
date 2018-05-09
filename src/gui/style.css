@@ -49,8 +49,12 @@
 
 #next-color>.white {
     background: rgb(255, 255, 255);
+    border-color: black;
+    border-width: 1px;
 }
 
 .cell.clickable {
     cursor: pointer;
 }
+
+#player-selection {}
