@@ -1,0 +1,72 @@
+#main {
+    text-align: center;
+}
+
+#game-board>table {
+    margin: 0 auto;
+}
+
+#game-board>table th {
+    margin: 0;
+    padding: 0.125em 0.25em;
+    line-height: 100%;
+}
+
+#game-board>table .cell {
+    background: rgb(0, 100, 0);
+    border: 1px solid rgb(200, 200, 200);
+    padding: 0;
+    margin: 0;
+    line-height: 0;
+}
+
+#game-board>table .cell>.stone {
+    display: inline-block;
+    width: 2em;
+    height: 2em;
+    border-radius: 1em;
+    margin: 0.25em;
+}
+
+#game-board>table .cell.white>.stone {
+    background: rgb(255, 255, 255);
+}
+
+#game-board>table .cell.black>.stone {
+    background: rgb(0, 0, 0);
+}
+
+#next-player {
+    float: inherit;
+}
+
+#next-color>.stone {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    border-radius: 0.5em;
+}
+
+#next-color>.black {
+    background: rgb(0, 0, 0);
+}
+
+#next-color>.white {
+    background: rgb(255, 255, 255);
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+}
+
+.cell.clickable {
+    cursor: pointer;
+}
+
+div#record {
+    position: relative;
+    margin: auto;
+    width: 400px;
+    height: 100px;
+    overflow: auto;
+    border: solid black;
+}
