@@ -22,13 +22,14 @@ var gameState = {
 
     function main() {
         reset();
+        document.getElementById('reset-button').onclick = reset;
     }
 
     function reset() {
         gameState.board = initializeBoard();
         gameState.turn = BLACK;
         gameState.wasPassed = false;
-        gameState.log
+        gameState.log = [];
         drawBoard(gameState.board, BLACK);
     }
 
