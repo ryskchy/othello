@@ -429,5 +429,5 @@ __pycache__/
 *.xsd.cs
 
 
-db.sqplite3
+db.sqlite3
 
